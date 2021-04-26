@@ -10,7 +10,6 @@ namespace KP2v
     class Processor
     {
         public Process Process { get; private set; }
-        ManualResetEvent manEvent;
 
         public int SetProcess(Process process)
         {

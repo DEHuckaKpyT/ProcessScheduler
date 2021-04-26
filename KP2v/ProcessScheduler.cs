@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,18 +27,19 @@ namespace KP2v
         {
             QueuingGrid[QueuingGrid.Keys.First()].Add(process);
         }
-
         public void StartProcessor()
         {
-            int j = 0;
-            while (j < 10)
+
+            while (QueuingGrid[listsTime[0]].Count>0)
             {
-                foreach (var i in QueuingGrid[listsTime[0]])
+                List<Process> tempProcessList = new List<Process>(QueuingGrid[listsTime[0]]);
+                foreach (var process in tempProcessList)
                 {
-                    i.TotalTime -= Processor.SetProcess(i);
-                    listBox.Items.Add($"{i.Name} {i.StepTime} {i.TotalTime}");
+                    process.TotalTime -= Processor.SetProcess(process);
+                    listBox.Invoke(new Action(()=> listBox.Items.Add($"{process.Name} {process.StepTime} {process.TotalTime}")));
+                    if (process.TotalTime <= 0) QueuingGrid[listsTime[0]].Remove(process);
                 }
-                j++;
+
             }
         }
     }
