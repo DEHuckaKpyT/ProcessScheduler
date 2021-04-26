@@ -43,17 +43,17 @@ namespace KP2v
             this.listBoxProcessesList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxProcessesList.FormattingEnabled = true;
             this.listBoxProcessesList.ItemHeight = 25;
-            this.listBoxProcessesList.Location = new System.Drawing.Point(764, 12);
+            this.listBoxProcessesList.Location = new System.Drawing.Point(563, 47);
             this.listBoxProcessesList.Name = "listBoxProcessesList";
-            this.listBoxProcessesList.Size = new System.Drawing.Size(422, 629);
+            this.listBoxProcessesList.Size = new System.Drawing.Size(422, 654);
             this.listBoxProcessesList.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(1211, 22);
+            this.button1.Location = new System.Drawing.Point(991, 47);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(151, 47);
+            this.button1.Size = new System.Drawing.Size(151, 42);
             this.button1.TabIndex = 1;
             this.button1.Text = "Запустить";
             this.button1.UseVisualStyleBackColor = true;
@@ -106,7 +106,7 @@ namespace KP2v
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1431, 736);
+            this.ClientSize = new System.Drawing.Size(1157, 736);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
