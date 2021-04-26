@@ -18,8 +18,5 @@ namespace KP2v
 
             return process.StepTime;
         }
-
-
-
     }
 }

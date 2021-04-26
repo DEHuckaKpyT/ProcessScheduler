@@ -18,9 +18,5 @@ namespace KP2v
             TotalTime = totalTime;
             StepTime = stepTime;
         }
-
-
-
-
     }
 }

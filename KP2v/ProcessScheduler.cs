@@ -30,7 +30,7 @@ namespace KP2v
         public void StartProcessor()
         {
             int j = 0;
-            while (j<10)
+            while (j < 10)
             {
                 foreach (var i in QueuingGrid[listsTime[0]])
                 {
@@ -38,15 +38,7 @@ namespace KP2v
                     listBox.Items.Add($"{i.Name} {i.StepTime} {i.TotalTime}");
                 }
                 j++;
-
             }
-
-
-
         }
-
-
-
-
     }
 }
