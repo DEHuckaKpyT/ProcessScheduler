@@ -55,6 +55,7 @@
     <Compile Include="Process.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="ProcessScheduler.cs" />
+    <Compile Include="ProcessStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
