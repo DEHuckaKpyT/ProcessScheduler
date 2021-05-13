@@ -10,7 +10,16 @@ namespace KP2v
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public int TotalTime { get; set; }
+        int totalTime;
+        public int TotalTime 
+        { 
+            get { return totalTime; }
+            set
+            {
+                totalTime = value < 0 ? 0 : value;
+                UpdateString();
+            }
+        }
         public int StepTime { get; private set; }
         ProcessStatus status;
         public ProcessStatus Status { 

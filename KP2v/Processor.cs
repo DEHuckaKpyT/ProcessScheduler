@@ -14,7 +14,7 @@ namespace KP2v
         public int SetProcess(Process process)
         {
             Process = process;
-            Thread.Sleep(process.StepTime);
+            Thread.Sleep(process.StepTime * 100);
 
             return process.StepTime;
         }
