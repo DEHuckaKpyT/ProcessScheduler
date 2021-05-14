@@ -14,9 +14,10 @@ namespace KP2v
         public int SetProcess(Process process)
         {
             Process = process;
-            Thread.Sleep(process.StepTime * 100);
+            int timeToSleep = process.StepTime < process.TotalTime ? process.StepTime : process.TotalTime;
+            Thread.Sleep(timeToSleep * 100);
 
-            return process.StepTime;
+            return timeToSleep;
         }
     }
 }

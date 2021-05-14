@@ -32,11 +32,10 @@ namespace KP2v
             this.listBoxLogs = new System.Windows.Forms.ListBox();
             this.buttonStart = new System.Windows.Forms.Button();
             this.listBoxFirstLine = new System.Windows.Forms.ListBox();
-            this.textBoxNameProcess = new System.Windows.Forms.TextBox();
-            this.textBoxTotalTime = new System.Windows.Forms.TextBox();
-            this.textBoxStepTime = new System.Windows.Forms.TextBox();
-            this.buttonAddNesProcess = new System.Windows.Forms.Button();
             this.listBoxSecondLine = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listBoxLogs
@@ -44,16 +43,16 @@ namespace KP2v
             this.listBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxLogs.FormattingEnabled = true;
             this.listBoxLogs.ItemHeight = 20;
-            this.listBoxLogs.Location = new System.Drawing.Point(676, 125);
+            this.listBoxLogs.Location = new System.Drawing.Point(306, 45);
             this.listBoxLogs.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxLogs.Name = "listBoxLogs";
-            this.listBoxLogs.Size = new System.Drawing.Size(318, 524);
+            this.listBoxLogs.Size = new System.Drawing.Size(520, 464);
             this.listBoxLogs.TabIndex = 0;
             // 
             // buttonStart
             // 
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStart.Location = new System.Drawing.Point(999, 73);
+            this.buttonStart.Location = new System.Drawing.Point(713, 9);
             this.buttonStart.Margin = new System.Windows.Forms.Padding(2);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(113, 34);
@@ -67,71 +66,62 @@ namespace KP2v
             this.listBoxFirstLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxFirstLine.FormattingEnabled = true;
             this.listBoxFirstLine.ItemHeight = 20;
-            this.listBoxFirstLine.Location = new System.Drawing.Point(23, 73);
+            this.listBoxFirstLine.Location = new System.Drawing.Point(15, 45);
             this.listBoxFirstLine.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxFirstLine.Name = "listBoxFirstLine";
-            this.listBoxFirstLine.Size = new System.Drawing.Size(259, 464);
+            this.listBoxFirstLine.Size = new System.Drawing.Size(259, 204);
             this.listBoxFirstLine.TabIndex = 2;
-            // 
-            // textBoxNameProcess
-            // 
-            this.textBoxNameProcess.Location = new System.Drawing.Point(9, 18);
-            this.textBoxNameProcess.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxNameProcess.Name = "textBoxNameProcess";
-            this.textBoxNameProcess.Size = new System.Drawing.Size(62, 20);
-            this.textBoxNameProcess.TabIndex = 3;
-            this.textBoxNameProcess.Text = "Название";
-            // 
-            // textBoxTotalTime
-            // 
-            this.textBoxTotalTime.Location = new System.Drawing.Point(86, 18);
-            this.textBoxTotalTime.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxTotalTime.Name = "textBoxTotalTime";
-            this.textBoxTotalTime.Size = new System.Drawing.Size(75, 20);
-            this.textBoxTotalTime.TabIndex = 4;
-            this.textBoxTotalTime.Text = "Общее время";
-            // 
-            // textBoxStepTime
-            // 
-            this.textBoxStepTime.Location = new System.Drawing.Point(175, 18);
-            this.textBoxStepTime.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxStepTime.Name = "textBoxStepTime";
-            this.textBoxStepTime.Size = new System.Drawing.Size(77, 20);
-            this.textBoxStepTime.TabIndex = 5;
-            this.textBoxStepTime.Text = "время кванта";
-            // 
-            // buttonAddNesProcess
-            // 
-            this.buttonAddNesProcess.Location = new System.Drawing.Point(266, 18);
-            this.buttonAddNesProcess.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonAddNesProcess.Name = "buttonAddNesProcess";
-            this.buttonAddNesProcess.Size = new System.Drawing.Size(152, 19);
-            this.buttonAddNesProcess.TabIndex = 6;
-            this.buttonAddNesProcess.Text = "Добавить процесс";
-            this.buttonAddNesProcess.UseVisualStyleBackColor = true;
-            this.buttonAddNesProcess.Click += new System.EventHandler(this.buttonAddNewProcess_Click);
             // 
             // listBoxSecondLine
             // 
             this.listBoxSecondLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxSecondLine.FormattingEnabled = true;
             this.listBoxSecondLine.ItemHeight = 20;
-            this.listBoxSecondLine.Location = new System.Drawing.Point(286, 73);
+            this.listBoxSecondLine.Location = new System.Drawing.Point(15, 295);
             this.listBoxSecondLine.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxSecondLine.Name = "listBoxSecondLine";
-            this.listBoxSecondLine.Size = new System.Drawing.Size(259, 464);
+            this.listBoxSecondLine.Size = new System.Drawing.Size(259, 204);
             this.listBoxSecondLine.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(10, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(179, 26);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Первая очередь";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(10, 267);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(176, 26);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Вторая очередь";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(301, 17);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(184, 26);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Журнал событий";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1286, 698);
+            this.ClientSize = new System.Drawing.Size(837, 516);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxSecondLine);
-            this.Controls.Add(this.buttonAddNesProcess);
-            this.Controls.Add(this.textBoxStepTime);
-            this.Controls.Add(this.textBoxTotalTime);
-            this.Controls.Add(this.textBoxNameProcess);
             this.Controls.Add(this.listBoxFirstLine);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.listBoxLogs);
@@ -149,11 +139,10 @@ namespace KP2v
         private System.Windows.Forms.ListBox listBoxLogs;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.ListBox listBoxFirstLine;
-        private System.Windows.Forms.TextBox textBoxNameProcess;
-        private System.Windows.Forms.TextBox textBoxTotalTime;
-        private System.Windows.Forms.TextBox textBoxStepTime;
-        private System.Windows.Forms.Button buttonAddNesProcess;
         private System.Windows.Forms.ListBox listBoxSecondLine;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

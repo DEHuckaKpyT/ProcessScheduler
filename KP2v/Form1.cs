@@ -21,23 +21,17 @@ namespace KP2v
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            processScheduler = new ProcessScheduler(listBoxFirstLine, listBoxSecondLine, listBoxLogs, 4);
-            processScheduler.AddNewProcess("1 процесс", 10, 3);
-            processScheduler.AddNewProcess("2 процесс", 20, 5);
-            //processScheduler.AddNewProcess("3 процесс", 40, 2);
-            //processScheduler.AddNewProcess("4 процесс", 20, 4);
-            //new Thread(new ThreadStart(processScheduler.StartProcessor)).Start();
+            processScheduler = new ProcessScheduler(listBoxFirstLine, listBoxSecondLine, listBoxLogs, 10);
+            processScheduler.AddNewProcess("1 процесс", 40, 9);
+            processScheduler.AddNewProcess("2 процесс", 63, 15);
+            processScheduler.AddNewProcess("3 процесс", 66, 10);
+            processScheduler.AddNewProcess("4 процесс", 50, 11);
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
             listBoxLogs.Items.Clear();
             new Thread(new ThreadStart(processScheduler.StartProcessor)).Start();
-        }
-
-        private void buttonAddNewProcess_Click(object sender, EventArgs e)
-        {
-            processScheduler.AddNewProcess(textBoxNameProcess.Text, int.Parse(textBoxTotalTime.Text), int.Parse(textBoxStepTime.Text));
         }
     }
 }

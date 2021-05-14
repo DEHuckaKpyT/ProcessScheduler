@@ -49,36 +49,61 @@ namespace KP2v
                     for (int i = 0; i < FirstLine.Count; i++)
                     {
                         Process process = FirstLine[i];
-                        listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
-                        process.TotalTime -= Processor.SetProcess(process);
-                        listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {process.StepTime} mc")));
+                        WriteLog($"Выполняется {process.Name}");
+                        //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
+                        process.Status = ProcessStatus.Running;
+                        UpdateListBoxes();
+                        int timeRunning = Processor.SetProcess(process);
+                        process.Status = ProcessStatus.InLine;
+                        process.TotalTime -= timeRunning;
+                        WriteLog($"{process.Name} вытеснился через {timeRunning} mc");
+                        //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {timeRunning} mc")));
                         if (process.TotalTime == 0) FirstLine.Remove(process);
                         if (process.StepTime > FirstListProcessingTime)
                         {
                             SecondLine.Add(process);
                             FirstLine.Remove(process);
-                            listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Процесс {process.Name} перемещён во вторую очередь")));
+                            WriteLog($"Процесс {process.Name} перемещён во вторую очередь");
+                            //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Процесс {process.Name} перемещён во вторую очередь")));
                             i--;
                         }
-                        listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = null));
-                        listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = FirstLine));
-                        listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DisplayMember = "String"));
-                        listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.ValueMember = "Id"));
+                        UpdateListBoxes();
                     }
                 }
                 for (int i = 0; i < SecondLine.Count; i++)
                 {
                     Process process = SecondLine[i];
-                    listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
-                    process.TotalTime -= Processor.SetProcess(process);
-                    listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {process.StepTime} mc")));
+                    WriteLog($"Выполняется {process.Name}");
+                    //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
+                    process.Status = ProcessStatus.Running;
+                    UpdateListBoxes();
+                    int timeRunning = Processor.SetProcess(process);
+                    process.Status = ProcessStatus.InLine;
+                    process.TotalTime -= timeRunning;
+                    WriteLog($"{process.Name} вытеснился через {timeRunning} mc");
+                    //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {process.StepTime} mc")));
                     if (process.TotalTime == 0) SecondLine.Remove(process);
                 }
-                listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DataSource = null));
-                listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DataSource = SecondLine));
-                listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DisplayMember = "String"));
-                listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.ValueMember = "Id"));
+                UpdateListBoxes();
             }
+        }
+        void UpdateListBoxes()
+        {
+            listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = null));
+            listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = FirstLine));
+            listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DisplayMember = "String"));
+            listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.ValueMember = "Id"));
+            listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.SelectedItem = null));
+            listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DataSource = null));
+            listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DataSource = SecondLine));
+            listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DisplayMember = "String"));
+            listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.ValueMember = "Id"));
+            listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.SelectedItem = null));
+        }
+        void WriteLog(string str)
+        {
+            listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add(str)));
+            listBoxLogs.Invoke(new Action(() => listBoxLogs.SelectedIndex = listBoxLogs.Items.Count - 1));
         }
     }
 }
