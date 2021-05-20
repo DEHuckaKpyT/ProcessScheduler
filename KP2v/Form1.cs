@@ -27,10 +27,10 @@ namespace KP2v
             processScheduler = new ProcessScheduler(listBoxAllProcesses, listBoxFirstLine, listBoxSecondLine, listBoxLogs, listBoxDoneProcesses,
                 int.Parse(textBox1.Text), doneProcesses);
             allProcesses = new List<Process>();
-            allProcesses.Add(processScheduler.AddNewProcess("Случ число", 40, 9, ResultRandomNumber));
-            allProcesses.Add(processScheduler.AddNewProcess("Эл-т последовательности", 63, 15, ResultElements));
-            allProcesses.Add(processScheduler.AddNewProcess("Текущая дата", 66, 10, ResultDate));
-            allProcesses.Add(processScheduler.AddNewProcess("Случ число", 50, 11, ResultRandomNumber));
+            allProcesses.Add(processScheduler.AddNewProcess("1.Случайное число", 40, 9, ResultRandomNumber));
+            allProcesses.Add(processScheduler.AddNewProcess("2.Эл-т последовательности", 63, 15, ResultElements));
+            allProcesses.Add(processScheduler.AddNewProcess("3.Текущая дата", 66, 10, ResultDate));
+            allProcesses.Add(processScheduler.AddNewProcess("4.Случайное число", 50, 11, ResultRandomNumber));
             UpdateListBoxAllProcesses();
         }
 

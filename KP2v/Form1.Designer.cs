@@ -51,22 +51,23 @@ namespace KP2v
             this.listBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxLogs.FormattingEnabled = true;
             this.listBoxLogs.ItemHeight = 20;
-            this.listBoxLogs.Location = new System.Drawing.Point(885, 80);
+            this.listBoxLogs.Location = new System.Drawing.Point(848, 47);
             this.listBoxLogs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listBoxLogs.Name = "listBoxLogs";
-            this.listBoxLogs.Size = new System.Drawing.Size(342, 584);
+            this.listBoxLogs.Size = new System.Drawing.Size(610, 624);
             this.listBoxLogs.TabIndex = 0;
             // 
             // buttonStart
             // 
+            this.buttonStart.BackColor = System.Drawing.Color.IndianRed;
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStart.Location = new System.Drawing.Point(1115, 13);
+            this.buttonStart.Location = new System.Drawing.Point(1345, 3);
             this.buttonStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(113, 34);
+            this.buttonStart.Size = new System.Drawing.Size(113, 36);
             this.buttonStart.TabIndex = 1;
             this.buttonStart.Text = "Запустить";
-            this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.UseVisualStyleBackColor = false;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // listBoxFirstLine
@@ -77,7 +78,7 @@ namespace KP2v
             this.listBoxFirstLine.Location = new System.Drawing.Point(7, 258);
             this.listBoxFirstLine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listBoxFirstLine.Name = "listBoxFirstLine";
-            this.listBoxFirstLine.Size = new System.Drawing.Size(434, 204);
+            this.listBoxFirstLine.Size = new System.Drawing.Size(416, 204);
             this.listBoxFirstLine.TabIndex = 2;
             // 
             // listBoxSecondLine
@@ -85,10 +86,10 @@ namespace KP2v
             this.listBoxSecondLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxSecondLine.FormattingEnabled = true;
             this.listBoxSecondLine.ItemHeight = 20;
-            this.listBoxSecondLine.Location = new System.Drawing.Point(447, 258);
+            this.listBoxSecondLine.Location = new System.Drawing.Point(427, 258);
             this.listBoxSecondLine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listBoxSecondLine.Name = "listBoxSecondLine";
-            this.listBoxSecondLine.Size = new System.Drawing.Size(434, 204);
+            this.listBoxSecondLine.Size = new System.Drawing.Size(416, 204);
             this.listBoxSecondLine.TabIndex = 7;
             // 
             // label1
@@ -105,7 +106,7 @@ namespace KP2v
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(442, 230);
+            this.label2.Location = new System.Drawing.Point(422, 230);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(176, 26);
             this.label2.TabIndex = 9;
@@ -115,7 +116,7 @@ namespace KP2v
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(880, 52);
+            this.label3.Location = new System.Drawing.Point(843, 19);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(184, 26);
             this.label3.TabIndex = 10;
@@ -124,9 +125,9 @@ namespace KP2v
             // buttonBlockProcess
             // 
             this.buttonBlockProcess.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonBlockProcess.Location = new System.Drawing.Point(163, 3);
+            this.buttonBlockProcess.Location = new System.Drawing.Point(158, 5);
             this.buttonBlockProcess.Name = "buttonBlockProcess";
-            this.buttonBlockProcess.Size = new System.Drawing.Size(278, 31);
+            this.buttonBlockProcess.Size = new System.Drawing.Size(265, 31);
             this.buttonBlockProcess.TabIndex = 11;
             this.buttonBlockProcess.Text = "Заблокировать/разблокировать";
             this.buttonBlockProcess.UseVisualStyleBackColor = true;
@@ -139,7 +140,7 @@ namespace KP2v
             this.listBoxAllProcesses.ItemHeight = 20;
             this.listBoxAllProcesses.Location = new System.Drawing.Point(7, 40);
             this.listBoxAllProcesses.Name = "listBoxAllProcesses";
-            this.listBoxAllProcesses.Size = new System.Drawing.Size(434, 184);
+            this.listBoxAllProcesses.Size = new System.Drawing.Size(416, 184);
             this.listBoxAllProcesses.TabIndex = 12;
             // 
             // listBoxDoneProcesses
@@ -147,17 +148,17 @@ namespace KP2v
             this.listBoxDoneProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxDoneProcesses.FormattingEnabled = true;
             this.listBoxDoneProcesses.ItemHeight = 20;
-            this.listBoxDoneProcesses.Location = new System.Drawing.Point(447, 40);
+            this.listBoxDoneProcesses.Location = new System.Drawing.Point(427, 40);
             this.listBoxDoneProcesses.Name = "listBoxDoneProcesses";
-            this.listBoxDoneProcesses.Size = new System.Drawing.Size(434, 184);
+            this.listBoxDoneProcesses.Size = new System.Drawing.Size(416, 184);
             this.listBoxDoneProcesses.TabIndex = 13;
             // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(962, 10);
+            this.textBox1.Location = new System.Drawing.Point(1278, 8);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(134, 26);
+            this.textBox1.Size = new System.Drawing.Size(62, 26);
             this.textBox1.TabIndex = 14;
             this.textBox1.Text = "10";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -166,7 +167,7 @@ namespace KP2v
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(750, 13);
+            this.label4.Location = new System.Drawing.Point(1077, 11);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(195, 20);
             this.label4.TabIndex = 15;
@@ -179,7 +180,7 @@ namespace KP2v
             this.listBoxResult.ItemHeight = 20;
             this.listBoxResult.Location = new System.Drawing.Point(12, 467);
             this.listBoxResult.Name = "listBoxResult";
-            this.listBoxResult.Size = new System.Drawing.Size(869, 204);
+            this.listBoxResult.Size = new System.Drawing.Size(831, 204);
             this.listBoxResult.TabIndex = 16;
             // 
             // label5
@@ -196,7 +197,7 @@ namespace KP2v
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(442, 12);
+            this.label6.Location = new System.Drawing.Point(422, 13);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(261, 26);
             this.label6.TabIndex = 18;
@@ -206,7 +207,7 @@ namespace KP2v
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 683);
+            this.ClientSize = new System.Drawing.Size(1468, 683);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.listBoxResult);

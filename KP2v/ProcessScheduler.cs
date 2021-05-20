@@ -69,7 +69,7 @@ namespace KP2v
                             {
                                 SecondLine.Add(process);
                                 FirstLine.Remove(process);
-                                WriteLog($"Процесс \"{process.Name}\" перемещён во вторую очередь");
+                                WriteLog($"\"{process.Name}\" перемещён во вторую очередь");
                                 i--;
                             }
                             if (process.Status != ProcessStatus.Blocked)
