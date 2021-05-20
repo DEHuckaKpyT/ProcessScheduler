@@ -11,6 +11,7 @@ namespace KP2v
         Running,
         WaitingEvent,
         InLine,
-        Done
+        Done,
+        Blocked
     }
 }

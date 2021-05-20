@@ -11,8 +11,8 @@ namespace KP2v
         public int Id { get; private set; }
         public string Name { get; private set; }
         int totalTime;
-        public int TotalTime 
-        { 
+        public int TotalTime
+        {
             get { return totalTime; }
             set
             {
@@ -22,23 +22,26 @@ namespace KP2v
         }
         public int StepTime { get; private set; }
         ProcessStatus status;
-        public ProcessStatus Status { 
-            get { return status; } 
-            set 
+        public ProcessStatus Status
+        {
+            get { return status; }
+            set
             {
                 status = value;
                 UpdateString();
-            } 
+            }
         }
         public string String { get; private set; }
+        public Action Result { get; private set; }
 
-        public Process(int id, string name, int totalTime, int stepTime)
+        public Process(int id, string name, int totalTime, int stepTime, Action action)
         {
             Id = id;
             Name = name;
             TotalTime = totalTime;
             StepTime = stepTime;
             Status = ProcessStatus.InLine;
+            Result = action;
         }
         void UpdateString()
         {

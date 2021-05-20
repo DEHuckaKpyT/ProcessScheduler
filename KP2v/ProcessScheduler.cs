@@ -16,8 +16,10 @@ namespace KP2v
         public Processor Processor { get; private set; }
         int FirstListProcessingTime;
         int lastId;
-        ListBox listBoxLogs, listBoxFirstLine, listBoxSecondLine;
-        public ProcessScheduler(ListBox listBoxFirstLine, ListBox listBoxSecondLine, ListBox listBoxLogs, int firstListProcessingTime)
+        ListBox listBoxAllProcesses, listBoxDoneProcesses, listBoxLogs, listBoxFirstLine, listBoxSecondLine;
+        BindingList<Process> doneProcesses;
+        public ProcessScheduler(ListBox listBoxAllProcesses, ListBox listBoxFirstLine, ListBox listBoxSecondLine, ListBox listBoxLogs, ListBox listBoxDoneProcesses,
+            int firstListProcessingTime, BindingList<Process> doneProcesses)
         {
             Processor = new Processor();
             FirstLine = new BindingList<Process>();
@@ -25,69 +27,83 @@ namespace KP2v
             this.listBoxLogs = listBoxLogs;
             this.listBoxFirstLine = listBoxFirstLine;
             this.listBoxSecondLine = listBoxSecondLine;
+            this.listBoxAllProcesses = listBoxAllProcesses;
+            this.listBoxDoneProcesses = listBoxDoneProcesses;
+            this.doneProcesses = doneProcesses;
             FirstListProcessingTime = firstListProcessingTime;
             lastId = -1;
-
-            listBoxFirstLine.DataSource = FirstLine;
-            listBoxFirstLine.DisplayMember = "String";
-            listBoxFirstLine.ValueMember = "Id";
-            listBoxSecondLine.DataSource = SecondLine;
-            listBoxSecondLine.DisplayMember = "String";
-            listBoxSecondLine.ValueMember = "Id";
+            UpdateListBoxes();
         }
-        public void AddNewProcess(string name, int totalTime, int stepTime)
+        public Process AddNewProcess(string name, int totalTime, int stepTime, Action action)
         {
             lastId++;
-            FirstLine.Add(new Process(lastId, name, totalTime, stepTime));
+            Process process = new Process(lastId, name, totalTime, stepTime, action);
+            FirstLine.Add(process);
+            return process;
         }
         public void StartProcessor()
         {
             while (SecondLine.Count > 0 || FirstLine.Count > 0)
             {
-                while (FirstLine.Count > 0)
+                while (FirstLine.Count(x => x.Status != ProcessStatus.Blocked) > 0)
                 {
                     for (int i = 0; i < FirstLine.Count; i++)
                     {
-                        Process process = FirstLine[i];
-                        WriteLog($"Выполняется {process.Name}");
-                        //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
-                        process.Status = ProcessStatus.Running;
-                        UpdateListBoxes();
-                        int timeRunning = Processor.SetProcess(process);
-                        process.Status = ProcessStatus.InLine;
-                        process.TotalTime -= timeRunning;
-                        WriteLog($"{process.Name} вытеснился через {timeRunning} mc");
-                        //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {timeRunning} mc")));
-                        if (process.TotalTime == 0) FirstLine.Remove(process);
-                        if (process.StepTime > FirstListProcessingTime)
+                        if (FirstLine[i].Status != ProcessStatus.Blocked)
                         {
-                            SecondLine.Add(process);
-                            FirstLine.Remove(process);
-                            WriteLog($"Процесс {process.Name} перемещён во вторую очередь");
-                            //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Процесс {process.Name} перемещён во вторую очередь")));
-                            i--;
+                            Process process = FirstLine[i];
+                            WriteLog($"Выполняется \"{process.Name}\"");
+                            process.Status = ProcessStatus.Running;
+                            UpdateListBoxes();
+                            int timeRunning = Processor.SetProcess(process);
+                            process.TotalTime -= timeRunning;
+                            WriteLog($"\"{process.Name}\" вытеснился через {timeRunning} mc");
+                            if (process.TotalTime == 0)
+                            {
+                                FirstLine.Remove(process);
+                                process.Result();
+                                doneProcesses.Add(process);
+                                UpdateListBoxDonelProcesses();
+                            }
+                            if (process.StepTime > FirstListProcessingTime)
+                            {
+                                SecondLine.Add(process);
+                                FirstLine.Remove(process);
+                                WriteLog($"Процесс \"{process.Name}\" перемещён во вторую очередь");
+                                i--;
+                            }
+                            if (process.Status != ProcessStatus.Blocked)
+                                process.Status = ProcessStatus.InLine;
+                            UpdateListBoxes();
                         }
-                        UpdateListBoxes();
                     }
                 }
                 for (int i = 0; i < SecondLine.Count; i++)
                 {
-                    Process process = SecondLine[i];
-                    WriteLog($"Выполняется {process.Name}");
-                    //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"Выполняется {process.Name}")));
-                    process.Status = ProcessStatus.Running;
-                    UpdateListBoxes();
-                    int timeRunning = Processor.SetProcess(process);
-                    process.Status = ProcessStatus.InLine;
-                    process.TotalTime -= timeRunning;
-                    WriteLog($"{process.Name} вытеснился через {timeRunning} mc");
-                    //listBoxLogs.Invoke(new Action(() => listBoxLogs.Items.Add($"{process.Name} вытеснился через {process.StepTime} mc")));
-                    if (process.TotalTime == 0) SecondLine.Remove(process);
+                    if (SecondLine[i].Status != ProcessStatus.Blocked)
+                    {
+                        Process process = SecondLine[i];
+                        WriteLog($"Выполняется \"{process.Name}\"");
+                        process.Status = ProcessStatus.Running;
+                        UpdateListBoxes();
+                        int timeRunning = Processor.SetProcess(process);
+                        process.TotalTime -= timeRunning;
+                        WriteLog($"\"{process.Name}\" вытеснился через {timeRunning} mc");
+                        if (process.TotalTime == 0)
+                        {
+                            SecondLine.Remove(process);
+                            process.Result();
+                            doneProcesses.Add(process);
+                            UpdateListBoxDonelProcesses();
+                        }
+                        if (process.Status != ProcessStatus.Blocked)
+                            process.Status = ProcessStatus.InLine;
+                        UpdateListBoxes();
+                    }
                 }
-                UpdateListBoxes();
             }
         }
-        void UpdateListBoxes()
+        public void UpdateListBoxes()
         {
             listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = null));
             listBoxFirstLine.Invoke(new Action(() => listBoxFirstLine.DataSource = FirstLine));
@@ -99,6 +115,14 @@ namespace KP2v
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DisplayMember = "String"));
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.ValueMember = "Id"));
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.SelectedItem = null));
+        }
+        void UpdateListBoxDonelProcesses()
+        {
+            listBoxDoneProcesses.Invoke(new Action(() => listBoxDoneProcesses.DataSource = null));
+            listBoxDoneProcesses.Invoke(new Action(() => listBoxDoneProcesses.DataSource = doneProcesses));
+            listBoxDoneProcesses.Invoke(new Action(() => listBoxDoneProcesses.DisplayMember = "Name"));
+            listBoxDoneProcesses.Invoke(new Action(() => listBoxDoneProcesses.ValueMember = "Id"));
+            listBoxDoneProcesses.Invoke(new Action(() => listBoxDoneProcesses.SelectedItem = null));
         }
         void WriteLog(string str)
         {
