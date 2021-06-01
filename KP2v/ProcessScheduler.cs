@@ -18,7 +18,8 @@ namespace KP2v
         int lastId;
         ListBox listBoxAllProcesses, listBoxDoneProcesses, listBoxLogs, listBoxFirstLine, listBoxSecondLine, listBoxBlockedProcesses;
         BindingList<Process> doneProcesses;
-        BindingList<Process> BlockedProcesses;
+        BindingList<Process> blockedProcesses;
+        public BindingList<Process> AllProcesses { get; set; }
         public ProcessScheduler(ListBox listBoxAllProcesses, ListBox listBoxFirstLine, 
             ListBox listBoxSecondLine, ListBox listBoxLogs, ListBox listBoxDoneProcesses,
             ListBox listBoxBlockedProcesses,
@@ -27,7 +28,8 @@ namespace KP2v
             Processor = new Processor();
             FirstLine = new BindingList<Process>();
             SecondLine = new BindingList<Process>();
-            BlockedProcesses = new BindingList<Process>();
+            blockedProcesses = new BindingList<Process>();
+            AllProcesses = new BindingList<Process>();
             this.listBoxLogs = listBoxLogs;
             this.listBoxFirstLine = listBoxFirstLine;
             this.listBoxSecondLine = listBoxSecondLine;
@@ -44,28 +46,29 @@ namespace KP2v
             lastId++;
             Process process = new Process(lastId, name, totalTime, stepTime, action);
             FirstLine.Add(process);
+            AllProcesses.Add(process);
             return process;
         }
         public void BlockOrUnblockProcess(Process process)
         {
-            if (process.Status == ProcessStatus.InLine )//|| process.Status == ProcessStatus.Running)
+            if (process.Status == ProcessStatus.InLine || process.Status == ProcessStatus.Running)
             {
                 if (FirstLine.Contains(process))
                 {
                     FirstLine.Remove(process);
-                    BlockedProcesses.Add(process);
+                    blockedProcesses.Add(process);
                     process.Status = ProcessStatus.Blocked;
                 }
                 if (SecondLine.Contains(process))
                 {
                     SecondLine.Remove(process);
-                    BlockedProcesses.Add(process);
+                    blockedProcesses.Add(process);
                     process.Status = ProcessStatus.Blocked;
                 }
             }
             else if (process.Status == ProcessStatus.Blocked)
             {
-                BlockedProcesses.Remove(process);
+                blockedProcesses.Remove(process);
                 FirstLine.Add(process);
                 process.Status = ProcessStatus.InLine;
             }
@@ -74,14 +77,11 @@ namespace KP2v
         }
         public void StartProcessor()
         {
-            //while (SecondLine.Count > 0 || FirstLine.Count > 0 || BlockedProcesses.Count > 0)
             while (true) 
             {
                 while (FirstLine.Count > 0)
                 {
 
-                    //for (int i = 0; i < FirstLine.Count; i++)
-                    //{
                     Process process = FirstLine[0];
                     WriteLog($"Выполняется \"{process.Name}\"");
                     process.Status = ProcessStatus.Running;
@@ -91,6 +91,7 @@ namespace KP2v
                     WriteLog($"\"{process.Name}\" вытеснился через {timeRunning} mc");
                     if (process.TotalTime == 0)
                     {
+                        process.Status = ProcessStatus.Done;
                         FirstLine.Remove(process);
                         process.Result();
                         doneProcesses.Add(process);
@@ -99,7 +100,8 @@ namespace KP2v
                     else
                     {
                         FirstLine.Remove(process);
-                        FirstLine.Add(process);
+                        if (process.Status != ProcessStatus.Blocked)
+                            FirstLine.Add(process);
                     }
                     if (process.StepTime > FirstListProcessingTime)
                     {
@@ -107,13 +109,11 @@ namespace KP2v
                         FirstLine.Remove(process);
                         WriteLog($"\"{process.Name}\" перемещён во вторую очередь");
                     }
-                    if (process.Status != ProcessStatus.Blocked)
+                    if (process.Status != ProcessStatus.Blocked && process.Status != ProcessStatus.Done)
                         process.Status = ProcessStatus.InLine;
                     UpdateListBoxes();
-                    //}
                 }
                 while (SecondLine.Count>0 && FirstLine.Count == 0)
-                //for (int i = 0; i < SecondLine.Count; i++)
                 {
                     if (FirstLine.Count > 0) break;
                     if (SecondLine[0].Status != ProcessStatus.Blocked)
@@ -128,6 +128,7 @@ namespace KP2v
                         if (process.TotalTime == 0)
                         {
                             SecondLine.Remove(process);
+                            process.Status = ProcessStatus.Done;
                             process.Result();
                             doneProcesses.Add(process);
                             UpdateListBoxDonelProcesses();
@@ -137,7 +138,7 @@ namespace KP2v
                             SecondLine.Remove(process);
                             SecondLine.Add(process);
                         }
-                        if (process.Status != ProcessStatus.Blocked)
+                        if (process.Status != ProcessStatus.Blocked && process.Status != ProcessStatus.Done)
                             process.Status = ProcessStatus.InLine;
                         UpdateListBoxes();
                     }
@@ -157,6 +158,15 @@ namespace KP2v
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.DisplayMember = "String"));
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.ValueMember = "Id"));
             listBoxSecondLine.Invoke(new Action(() => listBoxSecondLine.SelectedItem = null));
+            UpdateListBoxAllProcesses();
+        }
+        void UpdateListBoxAllProcesses()
+        {
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = null));
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = AllProcesses));
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DisplayMember = "String"));
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.ValueMember = "Id"));
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.SelectedItem = null));
         }
         void UpdateListBoxDonelProcesses()
         {
@@ -169,7 +179,7 @@ namespace KP2v
         void UpdateListBoxBlokedProcesses()
         {
             listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.DataSource = null));
-            listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.DataSource = BlockedProcesses));
+            listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.DataSource = blockedProcesses));
             listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.DisplayMember = "String"));
             listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.ValueMember = "Id"));
             listBoxBlockedProcesses.Invoke(new Action(() => listBoxBlockedProcesses.SelectedItem = null));

@@ -61,6 +61,7 @@ namespace KP2v
                 Process process = (Process)listBoxBlockedProcesses.SelectedItem;
                 processScheduler.BlockOrUnblockProcess(process);
             }
+            processScheduler.UpdateListBoxes();
         }
 
         void UpdateListBoxAllProcesses()
@@ -132,7 +133,7 @@ namespace KP2v
             processNumber++;
             allProcesses.Add(processScheduler.AddNewProcess(processNumber.ToString() + ".Случайный", 
                 random.Next(10, 100), random.Next(5, 16), GetRandAction()));
-            UpdateListBoxAllProcesses();
+            //UpdateListBoxAllProcesses();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -155,6 +156,7 @@ namespace KP2v
         {
             listBoxLogs.Items.Clear();
             allProcesses.Clear();
+            processScheduler.AllProcesses.Clear();
             processNumber = 0;
             processScheduler.FirstLine.Clear();
             processScheduler.SecondLine.Clear();
