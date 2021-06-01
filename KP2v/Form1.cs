@@ -16,6 +16,9 @@ namespace KP2v
         ProcessScheduler processScheduler;
         List<Process> allProcesses;
         BindingList<Process> doneProcesses;
+        Random random = new Random();
+        int processNumber = 0;
+        Thread threadRunning;
         public Form1()
         {
             InitializeComponent();
@@ -24,35 +27,47 @@ namespace KP2v
         private void Form1_Load(object sender, EventArgs e)
         {
             doneProcesses = new BindingList<Process>();
-            processScheduler = new ProcessScheduler(listBoxAllProcesses, listBoxFirstLine, listBoxSecondLine, listBoxLogs, listBoxDoneProcesses,
+            processScheduler = new ProcessScheduler(listBoxAllProcesses, listBoxFirstLine, 
+                listBoxSecondLine, listBoxLogs, listBoxDoneProcesses, listBoxBlockedProcesses,
                 int.Parse(textBox1.Text), doneProcesses);
+            processScheduler.Processor.SpeedRunning = 100;
             allProcesses = new List<Process>();
-            allProcesses.Add(processScheduler.AddNewProcess("1.Случайное число", 40, 9, ResultRandomNumber));
-            allProcesses.Add(processScheduler.AddNewProcess("2.Эл-т последовательности", 63, 15, ResultElements));
-            allProcesses.Add(processScheduler.AddNewProcess("3.Текущая дата", 66, 10, ResultDate));
-            allProcesses.Add(processScheduler.AddNewProcess("4.Случайное число", 50, 11, ResultRandomNumber));
-            UpdateListBoxAllProcesses();
+
+            StopRunning();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            listBoxLogs.Items.Clear();
-            new Thread(new ThreadStart(processScheduler.StartProcessor)).Start();
+            //listBoxLogs.Items.Clear();
+            if (threadRunning == null || threadRunning.ThreadState == ThreadState.Aborted)
+            {
+                threadRunning = new Thread(new ThreadStart(processScheduler.StartProcessor));
+                threadRunning.Start();
+            }
+            if (threadRunning.ThreadState == ThreadState.Suspended)
+                threadRunning.Resume();
+            //StopRunning();
         }
 
         private void buttonBlockProcess_Click(object sender, EventArgs e)
         {
-            if (listBoxAllProcesses.SelectedItem == null) return;
-            Process process = (Process)listBoxAllProcesses.SelectedItem;
-            process.Status = process.Status == ProcessStatus.Blocked ? ProcessStatus.InLine : ProcessStatus.Blocked;
-            processScheduler.UpdateListBoxes();
+            if (listBoxAllProcesses.SelectedItem != null)
+            {
+                Process process = (Process)listBoxAllProcesses.SelectedItem;
+                processScheduler.BlockOrUnblockProcess(process);
+            }
+            if (listBoxBlockedProcesses.SelectedItem != null)
+            {
+                Process process = (Process)listBoxBlockedProcesses.SelectedItem;
+                processScheduler.BlockOrUnblockProcess(process);
+            }
         }
 
         void UpdateListBoxAllProcesses()
         {
             listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = null));
             listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = allProcesses));
-            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DisplayMember = "Name"));
+            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DisplayMember = "String"));
             listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.ValueMember = "Id"));
             processScheduler.UpdateListBoxes();
         }
@@ -75,6 +90,82 @@ namespace KP2v
         void ResultDate()
         {
             listBoxResult.Invoke(new Action(() => listBoxResult.Items.Add("Дата = " + DateTime.Now)));
+        }
+        private void listBoxCantSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ((ListBox)sender).SelectedItem = null;
+        }
+
+        private void listBoxAllProcesses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Process process = (Process)listBoxAllProcesses.SelectedItem;
+            listBoxBlockedProcesses.SelectedItem = null;
+            listBoxAllProcesses.SelectedItem = process;
+        }
+
+        private void listBoxBlockedProcesses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Process process = (Process)listBoxBlockedProcesses.SelectedItem;
+            listBoxAllProcesses.SelectedItem = null;
+            listBoxBlockedProcesses.SelectedItem = process;
+        }
+
+        private void buttonAddRandomProcess_Click(object sender, EventArgs e)
+        {
+            AddRandProcess();
+        }
+        Action GetRandAction()
+        {
+            switch (random.Next(3))
+            {
+                case 0:
+                    return ResultRandomNumber;
+                case 1:
+                    return ResultElements;
+                case 2:
+                    return ResultDate;
+            }
+            return null;
+        }
+        void AddRandProcess()
+        {
+            processNumber++;
+            allProcesses.Add(processScheduler.AddNewProcess(processNumber.ToString() + ".Случайный", 
+                random.Next(10, 100), random.Next(5, 16), GetRandAction()));
+            UpdateListBoxAllProcesses();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            labelTrack.Text = "x" + trackBar1.Value.ToString();
+            processScheduler.Processor.SpeedRunning = 10000 / trackBar1.Value;
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            StopRunning();
+        }
+
+        private void buttonPause_Click(object sender, EventArgs e)
+        {
+            if (threadRunning != null && (threadRunning.ThreadState == ThreadState.Running || threadRunning.ThreadState == ThreadState.WaitSleepJoin))
+                threadRunning.Suspend();
+        }
+        void StopRunning()
+        {
+            listBoxLogs.Items.Clear();
+            allProcesses.Clear();
+            processNumber = 0;
+            processScheduler.FirstLine.Clear();
+            processScheduler.SecondLine.Clear();
+            if (threadRunning != null)
+            {
+                if (threadRunning.ThreadState == ThreadState.Suspended) threadRunning.Resume();
+                threadRunning.Abort();
+            }
+            int r = random.Next(1, 9);
+            for (int i = 0; i < r; i++)
+                AddRandProcess();
         }
     }
 }
