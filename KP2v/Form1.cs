@@ -38,7 +38,6 @@ namespace KP2v
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            //listBoxLogs.Items.Clear();
             if (threadRunning == null || threadRunning.ThreadState == ThreadState.Aborted)
             {
                 threadRunning = new Thread(new ThreadStart(processScheduler.StartProcessor));
@@ -46,7 +45,6 @@ namespace KP2v
             }
             if (threadRunning.ThreadState == ThreadState.Suspended)
                 threadRunning.Resume();
-            //StopRunning();
         }
 
         private void buttonBlockProcess_Click(object sender, EventArgs e)
@@ -61,15 +59,6 @@ namespace KP2v
                 Process process = (Process)listBoxBlockedProcesses.SelectedItem;
                 processScheduler.BlockOrUnblockProcess(process);
             }
-            processScheduler.UpdateListBoxes();
-        }
-
-        void UpdateListBoxAllProcesses()
-        {
-            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = null));
-            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DataSource = allProcesses));
-            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.DisplayMember = "String"));
-            listBoxAllProcesses.Invoke(new Action(() => listBoxAllProcesses.ValueMember = "Id"));
             processScheduler.UpdateListBoxes();
         }
         void ResultRandomNumber()
@@ -133,7 +122,6 @@ namespace KP2v
             processNumber++;
             allProcesses.Add(processScheduler.AddNewProcess(processNumber.ToString() + ".Случайный", 
                 random.Next(10, 100), random.Next(5, 16), GetRandAction()));
-            //UpdateListBoxAllProcesses();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
